@@ -1950,6 +1950,7 @@
     <Content Include="Views\Admin\GetProduct.cshtml" />
     <Content Include="Views\Admin\ProductsByCategory.cshtml" />
     <Content Include="Views\Admin\CreateProduct.cshtml" />
+    <Content Include="Views\Admin\GetAllProduct.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

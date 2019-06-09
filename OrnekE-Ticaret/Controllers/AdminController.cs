@@ -27,6 +27,12 @@ namespace OrnekE_Ticaret.Controllers
             ViewBag.ProductList = products;
             return View();
         }
+        public PartialViewResult GetAllProduct()
+        {
+            List<Product> products = productAccess.GetProudcts();
+            ViewBag.ProductList = products;
+            return PartialView();
+        }
         public PartialViewResult ProductsByCategory(int? id)
         {
             List<Product> products = productAccess.GetProductsByCategoryId(id);//(int)id-->nullable degerı pars etme
