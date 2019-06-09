@@ -1,0 +1,58 @@
+﻿@model List<OrnekE_Ticaret.Models.Product>
+@{
+    Layout = null;
+}
+@using OrnekE_Ticaret.Models
+
+<div id="Productss">
+    <header>
+        <h4 id="PageHeader">Tüm Ürünler</h4>
+        <hr />
+    </header>
+    <!-- Basic Card Example -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="row">
+                @if (((List<Product>)ViewBag.ProductList).Count == 0)
+                {
+                    <p style="text-align:center; font-size:30px; padding-top:10px">Hiç Ürününüz Yok!</p>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ürün Resmi</th>
+                                <th>Ürün Adı</th>
+                                <th>Fiyat</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in (List<Product>)ViewBag.ProductList)
+                            {
+                                <tr>
+                                    <td>resim</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ProductPrice)</td>
+                                    <td>
+                                        <a href="@Url.Action("RemoveProduct", "Admin", new { id = item.ProductID })" class="btn btn-danger">
+                                            <i class="fas fa-trash-alt mr-2"></i>
+                                            Sil
+                                        </a>
+
+                                        <a href="@Url.Action("UpdateProduct", "Admin", new { id = item.ProductID})" class="btn btn-success">
+                                            <span class="glyphicon glyphicon-refresh mr-2"></span>
+                                            Güncelle
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
