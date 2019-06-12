@@ -21,7 +21,7 @@
     <div class="card shadow">
         <div class="card-body">
             <div class="form-group">
-                @using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new { enctype = "multipart/from-data" }))
+                @using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     <form class="product">
                         <div class="form-group">
@@ -32,13 +32,13 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="CategoryID">Kategoriler</label>
-                            @Html.DropDownList("Categories", null, new { @class = "form-control", id = "CategoryID" })
+                            @Html.DropDownList("ProductCategoryID", null, new { @class = "form-control", id = "CategoryID" })
                         </div>
-                        @*<div class="form-group">
-                                <input type="file" name="ImageFile" required />
-                                @Html.ValidationMessageFor(model=>model.ProductPicture)
+                        <div class="form-group">
+                                <input type="file" name="PicturePath" required accept="image/*"  />
+                                
 
-                            </div>*@
+                            </div>
 
                         <input type="submit" class="btn btn-danger " value="Ekle" id="btnCreateProduct" />
 

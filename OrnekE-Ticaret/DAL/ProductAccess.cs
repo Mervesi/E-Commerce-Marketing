@@ -69,12 +69,7 @@ namespace OrnekE_Ticaret.DAL
         {
             using (db = new ShoppingExampleDbEntities2())
             {
-                db.Product.Add(new Product()
-                {
-                    ProductName = product.ProductName,
-                    ProductPrice = product.ProductPrice,
-                    ProductCategoryID = product.ProductCategoryID
-                });
+                db.Product.Add(product);
                 var save = db.SaveChanges();
                 if (save > 0)
                 {

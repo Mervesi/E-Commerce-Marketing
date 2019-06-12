@@ -20,9 +20,7 @@ namespace OrnekE_Ticaret.Controllers
         }
         public ActionResult GetProduct()
         {
-            List<Category> categories = categoryAccess.GetProudctCategories();
-            ViewBag.Categories = new SelectList(categories, "CategoryID", "CategoryName");
-            ViewBag.categoryList = categories;
+            PopulateCategoryList();
             List<Product> products = productAccess.GetProudcts();
             ViewBag.ProductList = products;
             return View();
@@ -35,24 +33,23 @@ namespace OrnekE_Ticaret.Controllers
         }
         public PartialViewResult ProductsByCategory(int? id)
         {
-            List<Product> products = productAccess.GetProductsByCategoryId(id);//(int)id-->nullable degerı pars etme
-            var category = categoryAccess.GetProductCategoryById(id);
-            ViewBag.CategoryName = category.CategoryName;
+            List<Product> products = productAccess.GetProudcts();
+            PopulateCategoryList();
             ViewBag.ProductList = products;
             return PartialView();
         }
         public ActionResult DeleteProduct(int? id)
         {
-            var isDelete=productAccess.DeleteProductByID(id);
+            var isDelete = productAccess.DeleteProductByID(id);
             if (isDelete)
             {
-                return RedirectToAction("GetProduct","Admin");
+                return RedirectToAction("GetProduct", "Admin");
             }
             else
             {
                 return View();
             }
-            
+
         }
         public ActionResult UpdateProduct(int? id)
         {
@@ -60,40 +57,42 @@ namespace OrnekE_Ticaret.Controllers
         }
         public ActionResult CreateProduct()
         {
-            List<Category> categories = categoryAccess.GetProudctCategories();
-            ViewBag.Categories = new SelectList(categories, "CategoryID", "CategoryName");
-            ViewBag.categoryList = categories;
+            PopulateCategoryList();
             return View();
         }
 
-        [HttpPost]
-        public ActionResult CreateProduct(Product product,int? id)
+        private void PopulateCategoryList()
         {
-            //if (file != null)
-            //{
-            //    string pictureName = System.IO.Path.GetFileNameWithoutExtension(product.);
-            //    string adres = Server.MapPath("~/Images/" + pictureName);
-            //    file.SaveAs(adres);
+            List<Category> categories = categoryAccess.GetProudctCategories();
+            ViewBag.ProductCategoryID = new SelectList(categories, "CategoryID", "CategoryName");
+            ViewBag.categoryList = categories;
+        }
 
-            //    product.ProductPicture = Request.Form["ProdutPicture"];
-            //    product.
-            //}
-            //if (!ModelState.IsValid)
-            //{
-            //    ViewBag.Message = "Girdiğiniz bilgileri kontrol ediniz.";
-            //    return View();
-            //}
-            //var ısCreate = productAccess.CreateProduct(product);
-            //if (ısCreate)
-            //{
-            //    ViewBag.Message = "Kayıt Başarılı!";
-            //    return View("Index");
-            //}
-            //else
-            //{
+        [HttpPost]
+        public ActionResult CreateProduct(Product product)
+        {
+            if (Request.Files.Count > 0)
+            {
+                string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
+
+                string uzanti = System.IO.Path.GetExtension(Request.Files[0].FileName);
+                string tamYol = "~/Content/Images/ProductPictures/" + dosyaAdi + uzanti;
+                Request.Files[0].SaveAs(Server.MapPath(tamYol));
+                product.PicturePath = dosyaAdi + uzanti;
+            }
+            List<Product> productList = productAccess.GetProudcts();
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Message = "Girdiğiniz bilgileri kontrol ediniz.";
                 return View();
-            
-            
+            }
+            PopulateCategoryList();
+            productList = productAccess.GetProudcts();
+            var ısCreate = productAccess.CreateProduct(product);
+            ViewBag.Message = "Kayıt Başarılı!";
+            return RedirectToAction("GetProduct", productList);
+
         }
 
     }

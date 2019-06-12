@@ -24,6 +24,7 @@ namespace OrnekE_Ticaret.Models
         public string ProductName { get; set; }
         public Nullable<decimal> ProductPrice { get; set; }
         public Nullable<int> ProductCategoryID { get; set; }
+        public string PicturePath { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BasketProduct> BasketProduct { get; set; }
